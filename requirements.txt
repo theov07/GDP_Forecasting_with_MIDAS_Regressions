@@ -1,0 +1,19 @@
+# Requirements for MIDAS GDP Forecasting Project
+# Andreou, Ghysels, Kourtellos (2013) Replication
+
+# Core data manipulation
+numpy>=1.21.0
+pandas>=1.5.0
+
+# Scientific computing
+scipy>=1.9.0
+
+# Machine learning (PCA, StandardScaler)
+scikit-learn>=1.1.0
+
+# Visualization
+matplotlib>=3.5.0
+
+# Jupyter notebook support
+jupyter>=1.0.0
+ipykernel>=6.0.0
