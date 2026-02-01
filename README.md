@@ -17,7 +17,7 @@
 
 ## Authors
 
-Théo Verdelhan --- Léo Renault** --- Arthur Le Net --- Nicolas Annon 
+Théo Verdelhan --- Léo Renault --- Arthur Le Net --- Nicolas Annon 
 
 ---
 
@@ -315,7 +315,7 @@ pip install -r requirements.txt
 
 ### Primary Reference
 
-Andreou, E., Ghysels, E., & Kourtellos, A. (2013). *Should Macroeconomic Forecasters Use Daily Financial Data and How?* Journal of Business & Economic Statistics, 31(2), 240-251. [DOI: 10.1080/07350015.2013.767199](https://doi.org/10.1080/07350015.2013.767199)
+Andreou, E., Ghysels, E., & Kourtellos, A. (2013). *Should Macroeconomic Forecasters Use Daily Financial Data and How?*
 
 ### Additional References
 
