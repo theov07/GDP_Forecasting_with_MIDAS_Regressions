@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Status-Complete-success.svg" alt="Status">
 </p>
 
-**Master 2 272 Quantitative Management - Université Paris Dauphine-PSL**
+**Master 2 272 Quantitative Finance - Université Paris Dauphine-PSL**
 
 > Academic replication and extension of Andreou, Ghysels, Kourtellos (2013):  
 > *"Should Macroeconomic Forecasters Use Daily Financial Data and How?"*  
@@ -15,18 +15,15 @@
 
 ---
 
-## 👥 Authors
+## Authors
 
-| Name | Role |
-|------|------|
-| **Théo Verdelhan** | Lead Developer & Econometric Implementation |
-| **Léo Renault** | Data Engineering & PCA Analysis |
-| **Arthur Le Net** | Model Validation & Benchmarking |
-| **Nicolas Annon** | Extension Development & Visualization |
+| Name |
+|------|
+| **Théo Verdelhan** | **Léo Renault** | **Arthur Le Net** | **Nicolas Annon** |
 
 ---
 
-## 📋 Project Overview
+## Project Overview
 
 ### Objective
 
@@ -42,7 +39,7 @@ This project was developed as part of the **Quantitative Management** course at 
 
 ---
 
-## 🔬 Methodology
+## Methodology
 
 ### The MIDAS Model
 
@@ -67,7 +64,7 @@ Where:
 
 ---
 
-## 📊 Data
+## Data
 
 ### Sources
 
@@ -92,7 +89,7 @@ We use **Bloomberg Terminal** data covering multiple asset classes:
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 QUANTITATIVE_MIDAS_MODEL_REPLICATION/
@@ -125,58 +122,132 @@ QUANTITATIVE_MIDAS_MODEL_REPLICATION/
 
 ---
 
-## 🔄 Replication Results
+## Replication Results
 
-### Table 1: RMSFE Comparisons (No Leads, h=1)
+### Table 1: RMSFE Comparisons — No Leads (Ratios to RW)
 
-| Model | Long Sample | Short Sample |
-|-------|-------------|--------------|
-| **Random Walk** | 0.62 (baseline) | 0.45 (baseline) |
-| **AR(1)** | 0.94 | 0.97 |
-| **ADL-MIDAS (5 Daily Factors)** | 0.88 | 0.91 |
-| **FADL-MIDAS (CFNAI + Daily Factors)** | 0.82 | 0.85 |
-| **Forecast Combination** | 0.79 | 0.83 |
+| Model | Long h=1 | Long h=4 | Short h=1 | Short h=4 |
+|-------|----------|----------|-----------|----------|
+| **RW (absolute RMSFE)** | 2.69 | 3.18 | 3.46 | 4.66 |
+| **AR** | 1.01 | 0.91 | 1.13 | 1.00 |
+| **FAR (CFNAI)** | 0.91 | 0.90 | 0.94 | 0.98 |
+| **ADL (5 DF)** | 1.09 | 1.12 | 1.20 | 1.14 |
+| **ADL-MIDAS (5 DF)** | 1.11 | 1.11 | 1.24 | 1.13 |
+| **FADL (CFNAI, 5 DF)** | 0.96 | 1.12 | 1.00 | 1.14 |
+| **FADL-MIDAS (CFNAI, 5 DF)** | 1.07 | 0.86 | 1.02 | 1.00 |
 
 *Values < 1 indicate improvement over Random Walk*
 
+### Table 3: RMSFE Comparisons — With Leads (Ratios to RW)
+
+| Model | Long h=1 | Long h=4 | Short h=1 | Short h=4 |
+|-------|----------|----------|-----------|----------|
+| **ADL-MIDAS (J_D=2)** | 0.97 | 0.87 | 0.94 | 0.89 |
+| **FADL-MIDAS (J_D=2)** | 0.77 | 0.73 | 0.70 | 0.62 |
+| **FADL-MIDAS (J_M=1, J_D=2)** | 0.93 | 0.81 | 0.86 | 0.82 |
+| **FAR (J_M=1)** | 0.87 | 0.73 | 0.84 | 0.72 |
+| **FADL (J_M=1)** | 0.90 | 0.88 | 0.92 | 0.86 |
+
+### Table 5: ADS Index Comparisons (Ratios to RW)
+
+| Model | Long h=1 | Long h=4 | Short h=1 | Short h=4 |
+|-------|----------|----------|-----------|----------|
+| **ADL-MIDAS (J_D,ADS=2)** | 0.57 | 0.48 | 0.56 | 0.42 |
+| **FADL-MIDAS (J_M=1, J_D,ADS=2)** | 0.60 | 0.52 | 0.60 | 0.46 |
+
 ### Key Findings from Replication
 
-1. **MIDAS outperforms AR benchmarks** by 6-15% in RMSFE
-2. **Daily financial factors** contain significant information for GDP forecasting
-3. **Forecast combination** via MSFE weights provides additional gains
-4. **Leads (nowcasting)** substantially improve accuracy when available
-5. **PCA factor extraction** efficiently summarizes high-dimensional financial data
+1. **Leads are crucial**: Models with daily leads (J_D=2) substantially outperform no-lead specifications
+2. **ADS dominates**: The Aruoba-Diebold-Scotti daily macro index achieves the best performance (40-50% improvement vs RW)
+3. **CFNAI adds value**: Factor AR with CFNAI beats pure AR benchmark
+4. **FADL-MIDAS with leads** is the best financial-factor model (0.70-0.77 vs RW)
+5. **Short sample challenges**: Pure financial factors underperform on shorter estimation windows without leads
 
 ---
 
-## 🚀 Extension: Post-Pandemic Period (2020-2025)
+## Extension: Two-β MIDAS Model (Lags vs Leads)
 
 ### Motivation
 
-The original paper covers 1986-2008, ending before the Global Financial Crisis aftermath. We extend the analysis to the **2020-2025 period** to test:
+In the standard MIDAS specification (Andreou et al., 2013), a **single β parameter** determines the weighting applied to the entire daily block—both lagged data and nowcast leads. This imposes the same weighting dynamics on historical information and intra-quarter data.
 
-1. Model robustness during **COVID-19 shock and recovery**
-2. Predictive ability during **high inflation regime**
-3. Performance under **aggressive Fed tightening**
+**Our contribution**: We propose a **Two-β MIDAS** extension that **separates** this parameter into:
+- **β_lag**: Weights applied to the lag block (past data, m = 63 days ≈ 1 quarter)
+- **β_lead**: Weights applied to the lead block (nowcast data, m_L ≈ 42 days ≈ 2 months)
 
-### Extension Results
+This relaxes a potentially restrictive constraint while remaining parsimonious (only one additional parameter).
 
-| Period | AR(1) RMSFE | MIDAS RMSFE | Improvement |
-|--------|-------------|-------------|-------------|
-| **Full 2024-2025** | 0.52 | 0.44 | +15.4% |
-| **Post-COVID Recovery** | 0.48 | 0.41 | +14.6% |
-| **High Inflation (2022-2023)** | 0.61 | 0.55 | +9.8% |
+### Model Specification
 
-### Novel Contributions
+The extended model at horizon h = 1 is:
 
-1. **State-Dependent θ**: Time-varying MIDAS weights based on volatility regimes
-2. **Multi-Horizon Analysis**: h = 1, 2, 3, 4 quarters ahead
-3. **Real-Time Nowcasting**: Using daily leads for current quarter estimation
-4. **Extended Macro Indicators**: ADS, CFNAI, PMI integration
+$$y_{t+1} = \alpha + \rho y_t + \beta_{lag} \sum_{k=1}^{m} B(k;\theta_{lag}) x_{t-k} + \beta_{lead} \sum_{j=1}^{m_L} B(j;\theta_{lead}) x_{t+j} + \varepsilon_{t+1}$$
+
+Where $B(k;\theta) = \frac{\exp(\theta k)}{\sum_\ell \exp(\theta \ell)}$ is the normalized exponential Almon weighting function.
+
+### Economic Intuition
+
+The leads correspond to the **beginning of the target quarter**—the most recent data available at forecast time. Under a single-β constraint, this valuable nowcast information may be under-weighted if the weighting shape is primarily driven by the lag block. Allowing **β_lag ≠ β_lead** lets the model treat historical and nowcast information differently, which is more economically coherent for nowcasting exercises.
+
+### Results
+
+#### Comparison: Two-β vs Single-β (OOS 2024-2025)
+
+| Model | RMSFE | Rel. to RW | vs RW |
+|-------|-------|------------|-------|
+| **Two-β MIDAS (J_D = 2)** | 2.727 | 1.288 | -28.8% |
+| Single-β MIDAS (J_D = 2) | 3.240 | 1.530 | -53.0% |
+
+**→ Two-β improves upon Single-β by 15.8%**
+
+#### Application to Paper Samples (Long & Short)
+
+| Sample | Model | RMSFE | Rel. to RW | Improvement vs Single-β |
+|--------|-------|-------|------------|------------------------|
+| **Long** | Two-β MIDAS | 2.397 | 1.132 | **+26.0%** |
+| **Short** | Two-β MIDAS | 2.827 | 1.335 | **+12.8%** |
+
+#### Estimated Parameters (Average across OOS forecasts)
+
+| Parameter | Value | Interpretation |
+|-----------|-------|----------------|
+| θ_lag | 0.0266 | Decay rate for historical weights |
+| θ_lead | 0.0176 | Decay rate for nowcast weights |
+| β_lag | 2.5252 | Scale for lag contribution |
+| β_lead | 3.6708 | Scale for lead contribution |
+
+The distinct estimated dynamics confirm the value of separating lag and lead effects.
+
+### Complete Model Ranking (OOS 2024-2025)
+
+| Rank | Model | RMSFE | vs RW |
+|------|-------|-------|-------|
+| 1 | ADL(flat) | 0.951 | +55.1% |
+| 2 | FAR(CFNAI) | 1.802 | +14.9% |
+| 3 | AR | 1.884 | +11.0% |
+| 4 | FADL(J_M = 1) | 2.114 | +0.2% |
+| 5 | RW (baseline) | 2.117 | — |
+| 6 | FAR(J_M = 1) | 2.261 | -6.8% |
+| **7** | **⭐ Two-β MIDAS (J_D = 2)** | **2.727** | **-28.8%** |
+| 8 | ADL-MIDAS(J_D = 2) | 3.240 | -53.0% |
+| 9 | FADL-MIDAS(J_M=1, J_D=2) | 3.653 | -72.5% |
+| 10 | FADL-MIDAS | 3.732 | -76.3% |
+
+*⭐ indicates our novel contribution*
+
+### Discussion
+
+The Two-β extension **consistently improves** over the standard single-β MIDAS across all samples. The separate weighting profiles allow the model to:
+1. Apply a **regular decay** on the lag block (classical fading memory)
+2. Treat **nowcast information** with its own dynamics
+
+**Limitations**: The extension does not beat RW on the recent 2024-2025 period. This is likely due to:
+- Short OOS window (8 quarters), sensitive to individual large errors
+- Post-COVID regime instability in the factor-GDP relationship
 
 ---
 
-## 📈 Visualizations
+## Visualizations
 
 The notebook generates comprehensive visualizations saved to `PLOT ANALYSIS/`:
 
@@ -189,7 +260,7 @@ The notebook generates comprehensive visualizations saved to `PLOT ANALYSIS/`:
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 ### Option 1: Automatic Setup (Recommended)
 
@@ -199,10 +270,6 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-**Windows:**
-```bash
-.\setup.bat
-```
 
 ### Option 2: Manual Setup
 
@@ -216,9 +283,6 @@ python -m venv .venv
 
 # Activate (macOS/Linux)
 source .venv/bin/activate
-
-# Activate (Windows)
-.venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -234,7 +298,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Usage
+## Usage
 
 1. **Activate environment:**
    ```bash
@@ -249,7 +313,7 @@ pip install -r requirements.txt
 
 ---
 
-## 📚 References
+## References
 
 ### Primary Reference
 
