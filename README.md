@@ -17,9 +17,7 @@
 
 ## Authors
 
-|------|
-| Théo Verdelhan | Léo Renault** | Arthur Le Net | Nicolas Annon |
-|------|
+Théo Verdelhan --- Léo Renault** --- Arthur Le Net --- Nicolas Annon 
 
 ---
 
